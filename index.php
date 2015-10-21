@@ -1,5 +1,4 @@
 <?php
-define("URL", "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 $item_id = $_GET['item'];
 
 $str = base64_decode($item_id);
@@ -47,7 +46,7 @@ function send($id) {
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
     <meta property="og:description" content="<?php echo $item['description']?>">
-    <meta property="og:url" content="<?php echo URL;?>">
+    <meta property="og:url" content="<?php echo $item["url"];?>">
     <meta property="og:image" content="http://www.earnbugs.in/public/assets/uploads/images/<?php echo $item['image'];?>">
     <meta name="og:image-new" content="http://www.earnbugs.in/public/assets/uploads/images/<?php echo $item['image'];?>">
     <meta property="og:site_name" content="The EarnBugs Media Group">
