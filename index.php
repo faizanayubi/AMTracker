@@ -51,7 +51,6 @@ function send($id) {
     <meta name="og:image-new" content="http://www.earnbugs.in/public/assets/uploads/images/<?php echo $item['image'];?>">
     <meta property="og:site_name" content="The EarnBugs Media Group">
     <meta name="generator" content="SwiftMVC 1.1.1">
-    <!--<meta http-equiv="refresh" content="0;<?php echo $item['url'];?>">-->
 </head>
 
 <body>
