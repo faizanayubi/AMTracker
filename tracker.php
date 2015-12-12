@@ -23,7 +23,27 @@ class Tracker {
 	}
 
 	function googleAnalytics($item) {
-	    $url = "https://www.google-analytics.com/collect?v=1&tid=UA-69054592-2&cid=".$item["username"]."&t=pageview&dp=".$item["id"]."&ua=CloudStuff";
+		$target = parse_url($item["url"]);
+		$data = array(
+			"v" => 1,
+			"tid" => "UA-69054592-2",
+			"cid" => $item["id"],
+			"t" => "pageview",
+			"dp" => $item["id"],
+			"uid" => $item["username"],
+			"ua" => "CloudStuff",
+			"cn" => $item["title"],
+			"cs" => $item["username"],
+			"cm" => "earnbugs",
+			"ck" => $item["username"],
+			"ci" => $item["id"],
+			"dl" => $item["url"],
+			"dh" => $target["host"],
+			"dp" => $target["path"],
+			"dt" => $item["title"]
+		);
+
+	    $url = "https://www.google-analytics.com/collect?".http_build_query($data);
 	    // Get cURL resource
 	    $curl = curl_init();
 	    curl_setopt_array($curl, array(
