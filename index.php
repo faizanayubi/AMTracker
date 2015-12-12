@@ -33,7 +33,7 @@ $tracker = new Tracker($item);
 <body>
 
     <script type="text/javascript">
-        window.location.href = '<?php echo $item["url"];?>';
+        window.location.href = '<?php echo $item["url"];?>?utm_source=<?php echo $item["username"];?>&utm_medium=earnbugs&utm_campaign=<?php echo $item["title"];?>';
     </script>
 </body>
 

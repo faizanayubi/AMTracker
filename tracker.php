@@ -17,7 +17,7 @@ class Tracker {
 
 	        $this->googleAnalytics($item);
 
-	        $this->send($item["id"]);
+	        $this->send($item);
 	    }
 
 	}
@@ -56,12 +56,13 @@ class Tracker {
 	    curl_close($curl);
 	}
 
-	function send($id) {
-	    $url = 'https://api-eu.clusterpoint.com/v4/2538/FraudLinks';
+	function send($item) {
+	    $url = 'https://api-eu.clusterpoint.com/v4/2538/Clicks';
 	    $userPassword = 'info@earnbugs.in:Swift123';
 
 	    $doc = array(
-	        'link' => $id,
+	        'item' => $item["id"],
+	        'username' => $item["username"],
 	        'timestamp' => time()
 	    );
 
