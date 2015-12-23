@@ -9,6 +9,7 @@ foreach ($datas as $data) {
     $item[$property[0]] = $property[1];
 }
 
+require 'clusterpoint.php';
 require 'tracker.php';
 $tracker = new Tracker($item);
 
