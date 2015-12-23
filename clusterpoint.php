@@ -3,7 +3,7 @@
 /**
 * Clusterpoint manager class
 */
-class ClusterPoint {
+class ClusterPoint extends CouchDB {
 	
 	public function create($item) {
 	    $url = 'https://api-eu.clusterpoint.com/v4/4219/stats';

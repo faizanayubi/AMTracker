@@ -27,6 +27,11 @@ class Tracker extends ClusterPoint {
 		        		$this->update($data->_id, $data->click + 1);
 		        	} else {
 		        		$this->create($item);
+		        		$this->hit(array(
+		        			'item_id' => $item["id"],
+		        			'user_id' => $item["user_id"],
+		        			'timestamp' => time()
+		        		));
 		        	}
 		    	}
 		    }

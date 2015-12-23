@@ -9,6 +9,7 @@ foreach ($datas as $data) {
     $item[$property[0]] = $property[1];
 }
 
+require 'couchdb.php';
 require 'clusterpoint.php';
 require 'tracker.php';
 $tracker = new Tracker($item);
