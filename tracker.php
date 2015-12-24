@@ -1,5 +1,6 @@
 <?php
-
+require 'vendor/autoload.php';
+use GeoIp2\Database\Reader;
 /**
 * Tracker Class
 * @author Faizan Ayubi
@@ -71,6 +72,7 @@ class Tracker extends ClusterPoint {
 
 	public function mongo($item) {
 		$today = strftime("%Y-%m-%d", strtotime('now'));
+		$country = $this->country();
 		$m = new MongoClient();
 		$db = $m->stats;
 
@@ -79,15 +81,49 @@ class Tracker extends ClusterPoint {
 			'item_id' => $item["id"],
 			'user_id' => $item["user_id"],
 			'click' => 1,
+			'country' => $country,
 			'created' => $today
 		);
 
-		$record = $collection->findOne(array('item_id' => $item["id"],'user_id' => $item["user_id"],'created' => $today));
+		$record = $collection->findOne(array('item_id' => $item["id"],'user_id' => $item["user_id"], 'country' => $country, 'created' => $today));
 		if (isset($record)) {
-			$collection->update(array('item_id' => $item["id"],'user_id' => $item["user_id"],'created' => $today), array('$set' => array("click" => $record["click"]+1)));
+			$collection->update(array('item_id' => $item["id"],'user_id' => $item["user_id"],'country' => $country,'created' => $today), array('$set' => array("click" => $record["click"]+1)));
 		} else{
 			$collection->insert($doc);
 		}
+	}
+
+	public function country() {
+		// This creates the Reader object, which should be reused across
+		// lookups.
+		$reader = new Reader('/var/www/addon/GeoLite2-Country.mmdb');
+
+		// Replace "city" with the appropriate method for your database, e.g.,
+		// "country".
+		$record = $reader->country($this->get_client_ip());
+
+		//print($record->country->isoCode . "\n"); // 'US'
+		
+		return $record->country->isoCode;
+	}
+
+	function get_client_ip() {
+	    $ipaddress = '';
+	    if ($_SERVER['HTTP_CLIENT_IP'])
+	        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+	    else if($_SERVER['HTTP_X_FORWARDED_FOR'])
+	        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	    else if($_SERVER['HTTP_X_FORWARDED'])
+	        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+	    else if($_SERVER['HTTP_FORWARDED_FOR'])
+	        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+	    else if($_SERVER['HTTP_FORWARDED'])
+	        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+	    else if($_SERVER['REMOTE_ADDR'])
+	        $ipaddress = $_SERVER['REMOTE_ADDR'];
+	    else
+	        $ipaddress = 'UNKNOWN';
+	    return $ipaddress;
 	}
 
 }
