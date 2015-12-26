@@ -1,60 +1,76 @@
 <?php
-require 'vendor/autoload.php';
 use GeoIp2\Database\Reader;
+
 /**
 * Tracker Class
 * @author Faizan Ayubi
 */
-class Tracker extends ClusterPoint {
+class Tracker {
 
 	public $item;
 
-	function __construct($item) {
-		$this->item = $item;
+	function __construct($item_id) {
+		$this->initialize($item_id);
+		$this->googleAnalytics();
+		
+		$cookie = "i".$this->item->id."u".$this->item->user_id;
+		if(!isset($_COOKIE[$cookie])) {
+	        setcookie($cookie, $cookie);
+	        $_COOKIE[$cookie] = $cookie;
 
-		if(isset($item["id"])) {
-			$this->googleAnalytics($item);
-			
-			$cookie = "i".$item["id"]."u".$item["user_id"];
-			if(!isset($_COOKIE[$cookie])) {
-		        setcookie($cookie, $item["id"]);
-		        $_COOKIE[$cookie] = $item["id"];
-
-		        if (isset($item["user_id"])) {
-
-		        	$this->mongo($item);
-		        	$record = $this->read($item);
-		        	if($record) {
-		        		$data = $record[0];
-		        		$this->update($data->_id, $data->click + 1);
-		        	} else {
-		        		$this->create($item);
-		        	}
-		    	}
-		    }
-		}
+	        if (isset($this->item->user_id)) {
+	        	$this->mongo();
+	    	}
+	    }
 
 	}
 
-	public function googleAnalytics($item) {
-		$target = parse_url($item["url"]);
+	public function toObject($array) {
+        $result = new \stdClass();
+        foreach ($array as $key => $value) {
+        	$result->{$key} = $value;
+        }
+        return $result;
+    }
+
+	public function initialize($item_id) {
+		$item = array();
+		$str = base64_decode($item_id);
+		$datas = explode("&", $str);
+		foreach ($datas as $data) {
+		    $property = explode("=", $data);
+		    $item[$property[0]] = $property[1];
+		}
+
+		$this->item = $this->toObject($item);
+	}
+
+	function image() {
+	    $img = explode(".", $this->item->image);
+	    $cdn = CDN . "resize/{$img[0]}-470x246.{$img[1]}";
+	    return $cdn;
+	}
+
+
+	public function googleAnalytics() {
+		$target = parse_url($this->item->url);
 		$data = array(
 			"v" => 1,
-			"tid" => "UA-70464246-1",
-			"cid" => $item["id"],
+			"tid" => GA,
+			"cid" => $this->item->id,
 			"t" => "pageview",
-			"dp" => $item["id"],
-			"uid" => $item["user_id"],
+			"dp" => $this->item->id,
+			"uid" => $this->item->user_id,
 			"ua" => "CloudStuff",
-			"cn" => $item["title"],
-			"cs" => $item["user_id"],
-			"cm" => "chocghar",
-			"ck" => $item["username"],
-			"ci" => $item["id"],
-			"dl" => $item["url"],
+			"cn" => $this->item->title,
+			"cs" => $this->item->user_id,
+			"cm" => ADNETWORK,
+			"ck" => $this->item->username,
+			"ci" => $this->item->id,
+			"dl" => $this->item->url,
 			"dh" => $target["host"],
 			"dp" => $target["path"],
-			"dt" => $item["title"]
+			"dt" => $this->item->title
 		);
 
 	    $url = "https://www.google-analytics.com/collect?".http_build_query($data);
@@ -70,7 +86,7 @@ class Tracker extends ClusterPoint {
 	    curl_close($curl);
 	}
 
-	public function mongo($item) {
+	public function mongo() {
 		$today = strftime("%Y-%m-%d", strtotime('now'));
 		$country = $this->country();
 		$m = new MongoClient();
@@ -78,16 +94,16 @@ class Tracker extends ClusterPoint {
 
 		$collection = $db->hits;
 		$doc = array(
-			'item_id' => $item["id"],
-			'user_id' => $item["user_id"],
+			'item_id' => $this->item->id,
+			'user_id' => $this->item->user_id,
 			'click' => 1,
 			'country' => $country,
 			'created' => $today
 		);
 
-		$record = $collection->findOne(array('item_id' => $item["id"],'user_id' => $item["user_id"], 'country' => $country, 'created' => $today));
+		$record = $collection->findOne(array('item_id' => $this->item->id,'user_id' => $this->item->user_id, 'country' => $country, 'created' => $today));
 		if (isset($record)) {
-			$collection->update(array('item_id' => $item["id"],'user_id' => $item["user_id"],'country' => $country,'created' => $today), array('$set' => array("click" => $record["click"]+1)));
+			$collection->update(array('item_id' => $this->item->id,'user_id' => $this->item->user_id,'country' => $country,'created' => $today), array('$set' => array("click" => $record["click"]+1)));
 		} else{
 			$collection->insert($doc);
 		}
@@ -96,7 +112,7 @@ class Tracker extends ClusterPoint {
 	public function country() {
 		// This creates the Reader object, which should be reused across
 		// lookups.
-		$reader = new Reader('/var/www/addon/GeoLite2-Country.mmdb');
+		$reader = new Reader(maxmind_db_path);
 
 		// Replace "city" with the appropriate method for your database, e.g.,
 		// "country".

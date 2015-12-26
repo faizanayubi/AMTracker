@@ -1,14 +1,14 @@
 <?php
-use GeoIp2\Database\Reader;
+require 'config.php';
 require 'vendor/autoload.php';
+use GeoIp2\Database\Reader;
 
 country();
-
 function country() {
 
 	// This creates the Reader object, which should be reused across
 	// lookups.
-	$reader = new Reader('/var/www/addon/GeoLite2-Country.mmdb');
+	$reader = new Reader(maxmind_db_path);
 
 	// Replace "city" with the appropriate method for your database, e.g.,
 	// "country".
