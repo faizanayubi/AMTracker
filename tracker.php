@@ -47,7 +47,7 @@ class Tracker {
 
 	function image() {
 	    $img = explode(".", $this->item->image);
-	    $cdn = CDN . "resize/{$img[0]}-470x246.{$img[1]}";
+	    $cdn = CDN . "resize/{$img[0]}-". DIMENSION .".{$img[1]}";
 	    return $cdn;
 	}
 
