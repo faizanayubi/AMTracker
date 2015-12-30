@@ -1,12 +1,12 @@
 <?php
-error_reporting(E_ALL);
 require 'config.php';
 require 'vendor/autoload.php';
 require 'tracker.php';
-
-$track = new Tracker($_GET['item']);
+if (isset($_GET['item'])) {
+    $track = new Tracker($_GET['item']);
+}
 ?>
-
+<?php if ($track): ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,3 +31,6 @@ $track = new Tracker($_GET['item']);
 </body>
 
 </html>
+<?php else: ?>
+    <p>Invalid Request Contact <a href="http://cloudstuff.tech">Admin</a></p>
+<?php endif; ?>

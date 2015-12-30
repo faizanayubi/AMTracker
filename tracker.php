@@ -12,17 +12,28 @@ class Tracker {
 	function __construct($item_id) {
 		$this->initialize($item_id);
 		$this->googleAnalytics();
-		
+
+		$c = $this->cookie();
+		if ($c < 10) {
+			$this->mongo();
+		}
+	}
+
+	/**
+	 * checks if cookie exists then return true else returns false and creates cookie
+	 * @return bool
+	 */
+	public function cookie() {
 		$cookie = "i".$this->item->id."u".$this->item->user_id;
+		$value = 1;
 		if(!isset($_COOKIE[$cookie])) {
-	        setcookie($cookie, $cookie);
-	        $_COOKIE[$cookie] = $cookie;
-
-	        if (isset($this->item->user_id)) {
-	        	$this->mongo();
-	    	}
+	        setcookie($cookie, $value);
+	        $_COOKIE[$cookie] = $value;
+	    } else {
+	    	$value = $_COOKIE[$cookie];
+	    	setcookie($cookie, ++$value);
 	    }
-
+	    return $value;
 	}
 
 	public function toObject($array) {
