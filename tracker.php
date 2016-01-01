@@ -13,9 +13,11 @@ class Tracker {
 		$this->initialize($item_id);
 		$this->googleAnalytics();
 
-		$c = $this->cookie();
-		if ($c < 10) {
-			$this->mongo();
+		if (isset($_SERVER['HTTP_REFERER']) && !$this->is_bot($_SERVER["HTTP_USER_AGENT"])) {
+			$c = $this->cookie();
+			if ($c < 3) {
+				$this->mongo();
+			}
 		}
 	}
 
@@ -35,6 +37,11 @@ class Tracker {
 	    }
 	    return $value;
 	}
+
+	public function is_bot($user_agent) {
+		$crawlersNames = 'Bloglines subscriber|Dumbot|Sosoimagespider|QihooBot|FAST-WebCrawler|Superdownloads Spiderman|LinkWalker|msnbot|ASPSeek|WebAlta Crawler|Lycos|FeedFetcher-Google|Yahoo|YoudaoBot|AdsBot-Google|Googlebot|Scooter|Gigabot|Charlotte|eStyle|AcioRobot|GeonaBot|msnbot-media|Baidu|CocoCrawler|Google|Charlotte t|Yahoo! Slurp China|Sogou web spider|YodaoBot|MSRBOT|AbachoBOT|Sogou head spider|AltaVista|IDBot|Sosospider|Yahoo! Slurp|Java VM|DotBot|LiteFinder|Yeti|Rambler|Scrubby|Baiduspider|accoona|Google|msnbot|Rambler|Yahoo|AbachoBOT|accoona|AcioRobot|ASPSeek|CocoCrawler|Dumbot|FAST-WebCrawler|GeonaBot|Gigabot|Lycos|MSRBOT|Scooter|AltaVista|IDBot|eStyle|Scrubby';
+	    return !empty($user_agent) ? preg_match("/{$crawlersNames}/i", $user_agent) > 0 : false;
+    }
 
 	public function toObject($array) {
         $result = new \stdClass();
