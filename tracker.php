@@ -13,7 +13,7 @@ class Tracker {
 		$this->initialize($item_id);
 		$this->googleAnalytics();
 
-		if (isset($_SERVER['HTTP_REFERER']) && !$this->is_bot($_SERVER["HTTP_USER_AGENT"])) {
+		if (!$this->is_bot($_SERVER["HTTP_USER_AGENT"])) {
 			$c = $this->cookie();
 			if ($c < 3) {
 				$this->mongo();
