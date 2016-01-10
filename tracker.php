@@ -59,7 +59,7 @@ class Tracker {
 		$datas = explode("&", $str);
 		foreach ($datas as $data) {
 		    $property = explode("=", $data);
-		    $item[$property[0]] = $property[1];
+		    $item[$property[0]] = trim(preg_replace('/\s+/', ' ', $property[1]));
 		}
 
 		$this->item = $this->toObject($item);
@@ -137,10 +137,8 @@ class Tracker {
 		// Replace "city" with the appropriate method for your database, e.g.,
 		// "country".
 		$record = $reader->country($this->get_client_ip());
-
-		//print($record->country->isoCode . "\n"); // 'US'
 		
-		return $record->country->isoCode;
+		return !empty($record->country->isoCode)? $record->country->isoCode : "IN";
 	}
 
 	function get_client_ip() {
@@ -159,7 +157,8 @@ class Tracker {
 	        $ipaddress = $_SERVER['REMOTE_ADDR'];
 	    else
 	        $ipaddress = 'UNKNOWN';
-	    return $ipaddress;
+	    $ip = explode(",", $ipaddress);
+    	return $ip[0];
 	}
 
 }

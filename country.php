@@ -2,8 +2,17 @@
 require 'config.php';
 require 'vendor/autoload.php';
 use GeoIp2\Database\Reader;
+echo "hi<br>";
 
-country();
+if (is_bot($_SERVER["HTTP_USER_AGENT"])) {
+    echo "Bot<br>";
+} else {
+    echo "real Visitor<br>";
+}
+
+echo "Country Code : ".country();
+
+echo "<br>IP: ".get_client_ip();
 function country() {
 
 	// This creates the Reader object, which should be reused across
@@ -14,7 +23,7 @@ function country() {
 	// "country".
 	$record = $reader->country(get_client_ip());
 
-	print($record->country->isoCode . "\n"); // 'US'
+	return !empty($record->country->isoCode)? $record->country->isoCode : "IN";
 }
 
 function get_client_ip() {
@@ -33,5 +42,13 @@ function get_client_ip() {
         $ipaddress = $_SERVER['REMOTE_ADDR'];
     else
         $ipaddress = 'UNKNOWN';
-    return $ipaddress;
+    $ip = explode(",", $ipaddress);
+    return $ip[0];
+}
+
+function is_bot($user_agent) {
+    $crawlersNames = 'Safari|Bloglines subscriber|Dumbot|Sosoimagespider|QihooBot|FAST-WebCrawler|Superdownloads Spiderman|LinkWalker|msnbot|ASPSeek|WebAlta Crawler|Lycos|FeedFetcher-Google|Yahoo|YoudaoBot|AdsBot-Google|Googlebot|Scooter|Gigabot|Charlotte|eStyle|AcioRobot|GeonaBot|msnbot-media|Baidu|CocoCrawler|Google|Charlotte t|Yahoo! Slurp China|Sogou web spider|YodaoBot|MSRBOT|AbachoBOT|Sogou head spider|AltaVista|IDBot|Sosospider|Yahoo! Slurp|Java VM|DotBot|LiteFinder|Yeti|Rambler|Scrubby|Baiduspider|accoona|Google|msnbot|Rambler|Yahoo|AbachoBOT|accoona|AcioRobot|ASPSeek|CocoCrawler|Dumbot|FAST-WebCrawler|GeonaBot|Gigabot|Lycos|MSRBOT|Scooter|AltaVista|IDBot|eStyle|Scrubby';
+    $preg = preg_match('/bot|spider|curl|crawl/i', $user_agent);
+    //$preg = preg_match("/{$crawlersNames}/i", $user_agent);
+    return !empty($user_agent) ? $preg > 0 : false;
 }
