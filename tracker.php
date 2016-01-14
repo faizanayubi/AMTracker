@@ -15,7 +15,7 @@ class Tracker {
 
 		if (!$this->is_bot($_SERVER["HTTP_USER_AGENT"])) {
 			$c = $this->cookie();
-			if ($c < 3) {
+			if ($c == 1) {
 				$this->mongo();
 			}
 		}
