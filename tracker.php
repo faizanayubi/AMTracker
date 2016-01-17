@@ -81,7 +81,6 @@ class Tracker {
 			"t" => "pageview",
 			"dp" => $this->item->id,
 			"uid" => $this->item->user_id,
-			"ua" => "CloudStuff",
 			"cn" => $this->item->title,
 			"cs" => $this->item->user_id,
 			"cm" => ADNETWORK,
@@ -98,8 +97,7 @@ class Tracker {
 	    $curl = curl_init();
 	    curl_setopt_array($curl, array(
 	        CURLOPT_RETURNTRANSFER => 1,
-	        CURLOPT_URL => $url,
-	        CURLOPT_USERAGENT => 'CloudStuff'
+	        CURLOPT_URL => $url
 	    ));
 
 	    $resp = curl_exec($curl);
