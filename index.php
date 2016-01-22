@@ -10,7 +10,6 @@ if (isset($_GET['item'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta property="fb:app_id" content="<?php echo FB_APPID;?>">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="robots" content="noodp">
@@ -27,7 +26,7 @@ if (isset($_GET['item'])) {
 
 <body>
 <script type="text/javascript">
-    window.location.href = '<?php echo $track->item->url;?>?utm_source=<?php echo $track->item->user_id;?>&utm_medium=<?php echo ADNETWORK;?>&utm_campaign=<?php echo $track->item->title;?>';
+    window.location.href = '<?php echo $track->redirectUrl();?>';
 </script>
 </body>
 
