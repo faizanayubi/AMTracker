@@ -1,0 +1,110 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(opensans.woff) format('woff');
+}
+
+body {
+	cursor: default;
+	font-family: "Open Sans",sans-serif;
+}
+
+h1,h2,h3,strong,b{
+	font-family: sans-serif;
+}
+
+textarea {
+	line-height: 1.4;
+}
+
+.code,code{
+	font-family:Consolas,Monaco,monospace;
+	direction:ltr
+}
+code{
+	padding:3px 5px 2px;
+	margin:0 1px;
+	background:#FAFAFA;
+	font-size:13px
+}
+
+.dotted {
+	border-top:1px dotted #FDCD25;
+}
+
+div.error {
+	border: 1px solid #FF0000;
+	border-left: 8px solid #FF0000;
+	padding: 1px 12px;
+}
+div.success {
+	border: 1px solid #31932B;
+	border-left: 8px solid #31932B;
+	padding: 1px 12px;
+}
+div.warning {
+	border: 1px solid #FDCD25;
+	border-left: 8px solid #FDCD25;
+	padding: 1px 12px;
+}
+
+fieldset { border: 1px solid #999999;}
+legend { border: 1px solid #ffd821;}
+
+.smallblack {
+   font-size: 13px;
+   color: #222;
+}
+.smallred {
+   font-size: 13px;
+   color: #FF0000;
+}
+
+.input {
+   color: #222;
+   font-size: 13px;
+   border: 1px solid #666666;
+   background-color: #ffffff;
+}
+
+input:not([type=submit]):not([type=button]):focus {background-color: #FDCD25;}
+
+.tinyblack {
+   font-size: 11px;
+   color: #222;
+}
+.tinygrey {
+   font-size: 11px;
+   color: #999999;
+}
+.tinyred {
+   font-size: 11px;
+   color: #FF0000;
+}
+a.links:hover, a.linkss:active {
+   color: #ffffff;
+   background-color: #FDCD25;
+}
+
+a {
+   color: #222;
+   text-decoration: none;
+}
+
+label {
+	cursor:pointer;
+}
+
+#username {
+   background: white url(login.png) no-repeat 0px -1px;
+   padding: 0px 0px 0px 18px;
+}
+
+#username:focus {background-color: #FDCD25;}
+
+#password {
+   background: white url(login.png) no-repeat -0px -25px;
+   padding: 0px 0px 0px 18px;
+}
+#password:focus { background-color: #FDCD25;}

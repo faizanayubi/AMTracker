@@ -1,0 +1,18 @@
+
+========================================================================
+
+To install a new copy of NinjaFirewall:
+
+1. Create a new directory and upload all files from this package.
+2. Goto http://YOUR_SITE/NEW_DIRECTORY/install.php
+3. Follow the setup assistant.
+
+========================================================================
+
+To uninstall NinjaFirewall:
+
+1. Remove any instructions added to your PHP INI and/or .htaccess
+   files during the installation process.
+2. Delete all files from the NinjaFirewall folder.
+
+========================================================================

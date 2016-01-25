@@ -1,0 +1,5 @@
+# BEGIN NinjaFirewall
+<IfModule mod_php5.c>
+   php_value auto_prepend_file /home/admin/web/powerfeeds.in/public_html/firewall/firewall.php
+</IfModule>
+# END NinjaFirewall
