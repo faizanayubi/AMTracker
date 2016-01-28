@@ -1,6 +1,12 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
 require 'config.php';
 require 'vendor/autoload.php';
+require 'tracker.php';
+if (isset($_GET['item'])) {
+    $track = new Tracker($_GET['item']);
+    echo "<pre>", print_r(base64_decode($_GET['item'])), "</pre>";
+}
 use GeoIp2\Database\Reader;
 echo "hi<br>";
 

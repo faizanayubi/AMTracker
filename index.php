@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
+
 require 'config.php';
 require 'vendor/autoload.php';
 require 'tracker.php';
@@ -10,23 +12,40 @@ if (isset($_GET['item'])) {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta property="fb:app_id" content="<?php echo FB_APPID;?>">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-    <meta name="robots" content="noodp">
-    <meta property="og:title" content="<?php echo $track->item->title;?>" />
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
+    <meta property="og:title" content="<?php echo $track->item->title;?>" />
     <meta property="og:description" content="<?php echo $track->item->description;?>">
+    <meta property="og:url" content="<?php echo URL;?>">
     <meta property="og:image" content="<?php echo $track->image();?>">
-    <meta name="og:image-new" content="<?php echo $track->image();?>">
     <meta property="og:site_name" content="<?php echo ADNETWORK;?>">
-    <meta property="og:url" content='<?php echo URL;?>'>
-    <meta name="generator" content="SwiftMVC 1.1.1">
+    <meta property="article:section" content="Pictures" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<?php echo $track->item->title;?>">
+    <meta name="twitter:description" content="<?php echo $track->item->description;?>">
+    <meta name="twitter:url" content="<?php echo URL;?>">
 </head>
 
 <body>
 <script type="text/javascript">
+redirect();
+function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            redirect();
+        }
+    };
+    xhttp.open("GET", "hit.php?item=<?php echo $_GET['item'];?>?", true);
+    xhttp.send();
+}
+function redirect () {
     window.location.href = '<?php echo $track->redirectUrl();?>';
+}
 </script>
 </body>
 
