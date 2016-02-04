@@ -11,6 +11,9 @@ class Tracker {
 
 	function __construct($item_id) {
 		$this->initialize($item_id);
+	}
+
+	public function hit() {
 		$this->googleAnalytics();
 
 		if (!$this->is_bot($_SERVER["HTTP_USER_AGENT"])) {
@@ -19,6 +22,16 @@ class Tracker {
 				$this->mongo();
 			}
 		}
+	}
+
+
+	public function is_ajax() {
+		$ajax = false;
+		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+			$ajax = true;
+		}
+
+		return $ajax;
 	}
 
 	/**
