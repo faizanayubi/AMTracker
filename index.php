@@ -20,7 +20,7 @@ if (isset($_GET['item'])) {
     <meta property="og:title" content="<?php echo $track->item->title;?>" />
     <meta property="og:description" content="<?php echo $track->item->description;?>">
     <meta property="og:url" content="<?php echo URL;?>">
-    <meta property="og:image" content="<?php echo $track->image();?>">
+    <meta property="og:image" content="<?php echo SITE;?>image.php?name=<?php echo $track->image_name();?>">
     <meta property="og:site_name" content="<?php echo ADNETWORK;?>">
     <meta property="article:section" content="Pictures" />
     

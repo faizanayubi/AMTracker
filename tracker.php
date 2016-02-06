@@ -84,6 +84,12 @@ class Tracker {
 	    return $cdn;
 	}
 
+	public function image_name() {
+	    $img = explode(".", $this->item->image);
+	    $cdn = "{$img[0]}-". DIMENSION .".{$img[1]}";
+	    return $cdn;
+	}
+
 	public function redirectUrl() {
 		$track = "?utm_source=".$this->item->user_id."&utm_medium=".ADNETWORK."&utm_campaign=".$this->item->title;
 		$string = str_replace("'", '-', $this->removeEmoji($this->item->url).$track);
