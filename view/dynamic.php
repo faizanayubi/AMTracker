@@ -9,7 +9,7 @@
     <meta property="og:title" content="<?php echo $track->link->title;?>" />
     <meta property="og:description" content="<?php echo $track->link->description;?>">
     <meta property="og:url" content="<?php echo URL;?>">
-    <meta property="og:image" content="">
+    <meta property="og:image" content="<?php echo SITE;?>image.php?file=<?php echo $track->link->image;?>">
     <meta property="og:site_name" content="EarnBugs">
     <meta property="article:section" content="Pictures" />
     

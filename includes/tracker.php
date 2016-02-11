@@ -28,8 +28,8 @@ class LinkTracker {
 	 * checks if cookie exists then return true else returns false and creates cookie
 	 * @return bool
 	 */
-	public function cookie($link_id) {
-		$cookie = "track".$link_id;
+	public function cookie() {
+		$cookie = "track".$this->link->link_id;
 		$value = 1;
 		if(!isset($_COOKIE[$cookie])) {
 	        setcookie($cookie, $value);
@@ -100,7 +100,7 @@ class LinkTracker {
 		if (!$this->is_ajax()) {
 			return false;
 		}
-		$c = $this->cookie($link_id);
+		$c = $this->cookie();
 		if ($c == 1) {
 			$this->mongo();
 		}
@@ -134,7 +134,7 @@ class LinkTracker {
 	public function country() {
 		$reader = new Reader(maxmind_db_path);
 		$record = $reader->country($this->get_client_ip());
-		return !empty($record->country->isoCode)? $record->country->isoCode : "IN";
+		return !empty($record->country->isoCode)? $record->country->isoCode : "NONE";
 	}
 
 	function get_client_ip() {

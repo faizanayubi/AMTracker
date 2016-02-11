@@ -1,9 +1,7 @@
-# Turn on the rewrite engine
+<IfModule mod_rewrite.c>
 RewriteEngine On
-
-# Don't rewrite any directory or file that exists: 
-RewriteCond %{REQUEST_URI} !-f
-RewriteCond %{REQUEST_URI} !-d
-
-# Rewrite!
-RewriteRule ^([a-zA-Z0-9_\-\+]+)$ redirect.php?id=$1
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !=/favicon.ico
+RewriteRule ^(.*)$ redirect.php?id=$1 [QSA]
+</IfModule>
