@@ -6,16 +6,16 @@
     <meta property="fb:app_id" content="1644257145856201">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="<?php echo $track->item->title;?>" />
-    <meta property="og:description" content="<?php echo $track->item->description;?>">
+    <meta property="og:title" content="<?php echo $track->link->title;?>" />
+    <meta property="og:description" content="<?php echo $track->link->description;?>">
     <meta property="og:url" content="<?php echo URL;?>">
-    <meta property="og:image" content="<?php echo SITE;?>image.php?name=<?php echo $track->image_name();?>">
+    <meta property="og:image" content="">
     <meta property="og:site_name" content="EarnBugs">
     <meta property="article:section" content="Pictures" />
     
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<?php echo $track->item->title;?>">
-    <meta name="twitter:description" content="<?php echo $track->item->description;?>">
+    <meta name="twitter:title" content="<?php echo $track->link->title;?>">
+    <meta name="twitter:description" content="<?php echo $track->link->description;?>">
     <meta name="twitter:url" content="<?php echo URL;?>">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -32,15 +32,8 @@ function process() {
         data: {id: '<?php echo $_GET["id"]?>'}
     })
     .done(function() {
-        console.log("success");
-    })
-    .fail(function() {
-        console.log("error");
-    })
-    .always(function() {
-        console.log("complete");
+        window.location.href = '<?php echo $track->redirectUrl();?>';
     });
-    
 }
 </script>
 </body>

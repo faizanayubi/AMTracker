@@ -9,14 +9,14 @@
     <meta property="og:title" content="EarnBugs" />
     <meta property="og:description" content="A real Network for real publishers developed by CloudStuff.Tech">
     <meta property="og:url" content="<?php echo URL;?>">
-    <meta property="og:image" content="<?php echo URL;?>/logo.png">
+    <meta property="og:image" content="<?php echo SITE;?>includes/logo.png">
     <meta property="og:site_name" content="EarnBugs">
     <meta property="article:section" content="Pictures" />
     
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="EarnBugs">
     <meta name="twitter:description" content="A real Network for real publishers developed by CloudStuff.Tech">
-    <meta name="twitter:url" content="<?php echo URL;?>">
+    <meta name="twitter:url" content="<?php echo SITE;?>">
 </head>
 
 <body>
