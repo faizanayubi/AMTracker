@@ -122,46 +122,13 @@ class Tracker {
 	    return $clean_text;
 	}
 
-
-	public function googleAnalytics() {
-		$target = parse_url($this->item->url);
-		$data = array(
-			"v" => 1,
-			"tid" => GA,
-			"cid" => $this->item->id,
-			"t" => "pageview",
-			"dp" => $this->item->id,
-			"uid" => $this->item->user_id,
-			"cn" => $this->item->title,
-			"cs" => $this->item->user_id,
-			"cm" => ADNETWORK,
-			"ck" => $this->item->username,
-			"ci" => $this->item->id,
-			"dl" => $this->item->url,
-			"dh" => $target["host"],
-			"dp" => $target["path"],
-			"dt" => $this->item->title
-		);
-
-	    $url = "https://www.google-analytics.com/collect?".http_build_query($data);
-	    // Get cURL resource
-	    $curl = curl_init();
-	    curl_setopt_array($curl, array(
-	        CURLOPT_RETURNTRANSFER => 1,
-	        CURLOPT_URL => $url
-	    ));
-
-	    $resp = curl_exec($curl);
-	    curl_close($curl);
-	}
-
 	public function mongo() {
 		$today = strftime("%Y-%m-%d", strtotime('now'));
 		$country = $this->country();
 		$m = new MongoClient();
 		$db = $m->stats;
 
-		$collection = $db->hits;
+		$collection = $db->clicks;
 		$doc = array(
 			'item_id' => $this->item->id,
 			'user_id' => $this->item->user_id,

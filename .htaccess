@@ -1,0 +1,9 @@
+# Turn on the rewrite engine
+RewriteEngine On
+
+# Don't rewrite any directory or file that exists: 
+RewriteCond %{REQUEST_URI} !-f
+RewriteCond %{REQUEST_URI} !-d
+
+# Rewrite!
+RewriteRule ^([a-zA-Z0-9_\-\+]+)$ redirect.php?id=$1
