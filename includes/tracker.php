@@ -61,7 +61,7 @@ class LinkTracker {
 	}
 
 	public function redirectUrl() {
-		$track = "?utm_source=".$this->link->user_id."&utm_medium=".EarnBugs."&utm_campaign=".$this->link->title;
+		$track = "?utm_source=".$this->link->user_id."&utm_medium=Clicks99&utm_campaign=".$this->link->title;
 		$string = str_replace("'", '-', $this->removeEmoji($this->link->url).$track);
 		return $string;
 	}
@@ -97,11 +97,8 @@ class LinkTracker {
 	}
 
 	public function process() {
-		if (!$this->is_ajax()) {
-			return false;
-		}
 		$c = $this->cookie();
-		if ($c == 1) {
+		if ($c < 4) {
 			$this->mongo();
 		}
 		
@@ -134,22 +131,22 @@ class LinkTracker {
 	public function country() {
 		$reader = new Reader(maxmind_db_path);
 		$record = $reader->country($this->get_client_ip());
-		return !empty($record->country->isoCode)? $record->country->isoCode : "NONE";
+		return !empty($record->country->isoCode)? $record->country->isoCode : "IN";
 	}
 
 	function get_client_ip() {
 	    $ipaddress = '';
-	    if ($_SERVER['HTTP_CLIENT_IP'])
+	    if (isset($_SERVER['HTTP_CLIENT_IP']))
 	        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-	    else if($_SERVER['HTTP_X_FORWARDED_FOR'])
+	    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
 	        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	    else if($_SERVER['HTTP_X_FORWARDED'])
+	    else if(isset($_SERVER['HTTP_X_FORWARDED']))
 	        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-	    else if($_SERVER['HTTP_FORWARDED_FOR'])
+	    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
 	        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-	    else if($_SERVER['HTTP_FORWARDED'])
+	    else if(isset($_SERVER['HTTP_FORWARDED']))
 	        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-	    else if($_SERVER['REMOTE_ADDR'])
+	    else if(isset($_SERVER['REMOTE_ADDR']))
 	        $ipaddress = $_SERVER['REMOTE_ADDR'];
 	    else
 	        $ipaddress = 'UNKNOWN';
