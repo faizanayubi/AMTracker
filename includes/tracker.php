@@ -61,7 +61,7 @@ class LinkTracker {
 	}
 
 	public function redirectUrl() {
-		$track = "?utm_source=".$this->link->user_id."&utm_medium=Clicks99&utm_campaign=".$this->link->title;
+		$track = "?utm_source=". $this->link->user_id ."&utm_medium=EarnBugs&utm_campaign=".$this->link->title."&utm_term=".$this->link->title."&utm_content=".$this->link->user_id;
 		$string = str_replace("'", '-', $this->removeEmoji($this->link->url).$track);
 		return $string;
 	}
